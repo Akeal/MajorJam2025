@@ -1,14 +1,12 @@
 using Godot;
 
-public partial class IRule
+public partial interface IRule
 {
-    private enum Outcome {
+    public enum Outcome {
         positive,
         neutral,
         negative
     }
 
-    public Outcome Perform(){
-        
-    }
+    public Outcome Perform();
 }

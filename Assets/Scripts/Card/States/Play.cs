@@ -12,10 +12,15 @@ public partial class Play : State<Card>
     public override void OnEnter(State<Card> priorState)
     {
         base.OnEnter(priorState);
-        this._participant.Hand.Remove(Agent);
-        // Do play animation shit
+    }
 
-        // Do rule evaluation shit
+    public override void OnProcess(double delta)
+    {
+        base.OnProcess(delta);
+        if(_participant.CurrentState is TakeTurn<Participant>)
+        {
+            return;
+        }
 
         Agent.ChangeState(new Played());
     }

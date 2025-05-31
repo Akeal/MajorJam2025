@@ -8,6 +8,13 @@ public partial class State<T> where T : Node
         }
     }
 
+    public State(T agent)
+    {
+        this._agent = agent;
+    }
+
+    public State(){}
+
     public virtual void OnEnter(State<T> priorState)
     {
         this._agent = priorState.Agent;

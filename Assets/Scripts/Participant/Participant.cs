@@ -8,6 +8,8 @@ public partial class Participant : StateMachineNode<Participant>
     public List<Card> Hand;
 
     [Export]
-    public Round Round;
+    public Stack<Token> Tokens;
 
+    [Export]
+    public Round Round;
 }

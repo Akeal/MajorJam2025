@@ -4,35 +4,33 @@ using System.Collections.Generic;
 public partial class StateMachineNode<T> : Node
     where T : Node
 {
-    [Export]
-    private T _actor;
-    public T Actor 
+    public T Agent
     {
         get
         {
-            return _actor;
+            return this as T;
         }
     }
 
-    private Stack<State<T>> _stateStack;
-    public State<T> CurrentState
+    protected Stack<State<T>> stateStack = new Stack<State<T>>();
+    public virtual State<T> CurrentState
     {
-        get{
-            return _stateStack.Peek();
+        get
+        {
+            return stateStack.Count > 0 ? stateStack.Peek() : new State<T>(Agent);
         }
     }
 
     public void PushState(State<T> nextState)
     {
         State<T> priorState = CurrentState;
-        _stateStack.Push(nextState);
+        stateStack.Push(nextState);
         nextState.OnEnter(priorState);
     }
 
     public State<T> PopState()
     {
-        State<T> priorState = null;
-        if(_stateStack.TryPop(out priorState))
+        if(stateStack.TryPop(out State<T> priorState))
         {
             priorState.OnExit(CurrentState);
         }
