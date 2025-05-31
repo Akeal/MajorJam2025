@@ -1,23 +1,19 @@
 using Godot;
-public partial class StateNode<T> : Node
-    where T : Node
+public partial class State<T> where T : Node
 {
-    private bool _active;
-    public bool Active {
+    private T _agent;
+    protected T Agent {
         get{
-            return _active;
+            return _agent;
         }
     }
 
-    public virtual void OnEnter(StateNode<T> priorState)
+    public virtual void OnEnter(State<T> priorState)
     {
-        _active = true;
+        this._agent = priorState.Agent;
     }
 
-    public virtual void OnExit(StateNode<T> nextState = null)
-    {
-        _active = false;
-    }
+    public virtual void OnExit(State<T> nextState = null){ }
     public virtual void OnProcess(double delta){ }
     public virtual void OnPhysicsProcess(double delta){}
 }

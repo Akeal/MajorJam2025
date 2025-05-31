@@ -14,24 +14,24 @@ public partial class StateMachineNode<T> : Node
         }
     }
 
-    private Stack<StateNode<T>> _stateStack;
-    public StateNode<T> CurrentState
+    private Stack<State<T>> _stateStack;
+    public State<T> CurrentState
     {
         get{
             return _stateStack.Peek();
         }
     }
 
-    public void PushState(StateNode<T> nextState)
+    public void PushState(State<T> nextState)
     {
-        StateNode<T> priorState = CurrentState;
+        State<T> priorState = CurrentState;
         _stateStack.Push(nextState);
         nextState.OnEnter(priorState);
     }
 
-    public StateNode<T> PopState()
+    public State<T> PopState()
     {
-        StateNode<T> priorState = null;
+        State<T> priorState = null;
         if(_stateStack.TryPop(out priorState))
         {
             priorState.OnExit(CurrentState);
@@ -39,9 +39,9 @@ public partial class StateMachineNode<T> : Node
         return priorState;
     }
 
-    public StateNode<T> ChangeState(StateNode<T> nextState)
+    public State<T> ChangeState(State<T> nextState)
     {
-        StateNode<T> priorState = PopState();
+        State<T> priorState = PopState();
         PushState(nextState);
         return priorState;
     }
